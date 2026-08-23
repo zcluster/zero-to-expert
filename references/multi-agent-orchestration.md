@@ -21,6 +21,7 @@ Enter this protocol only after the mode router has selected Full from explicit u
 Before delegation, freeze and give every subagent the same compact brief:
 
 - exact topic and route: Academic, Technology–industry, or Mixed;
+- frozen `content_language`; research-note language must not override the final artifact language;
 - audience and target capability;
 - geography, time horizon, and evidence cutoff;
 - included and excluded scope;

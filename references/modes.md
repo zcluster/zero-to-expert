@@ -4,15 +4,31 @@ Mode controls runtime, breadth, and artifact size. It never lowers evidence qual
 
 ## Selection
 
+- Freeze `content_language` using [language-routing.md](language-routing.md) before presenting any mode text.
 - Choose **Lite** for `lite`, 快速版, 轻量版, single-agent, or 不使用 subagent.
 - Choose **Full** for `full`, 完整版, 深度版, 多视角, multi-agent, or equivalent wording.
-- If neither appears, ask after the initial prompt and before any research or file creation:
-  - **Lite（推荐）** — 单 Agent、一次限定研究，速度更快。
-  - **Full** — 最多三个研究 Agent、多视角交叉验证，内容更深。
+- If neither appears, ask after the initial prompt and before any research or file creation. Use the template matching `content_language`:
+
+### English
+
+Please choose the production mode:
+
+- **Lite (Recommended)** — One agent, one bounded research pass, and faster delivery.
+- **Full** — Up to three research agents, multi-perspective cross-validation, and deeper coverage.
+
+### Simplified Chinese
+
+请选择制作模式：
+
+- **Lite（推荐）** — 单 Agent、一次限定研究，速度更快。
+- **Full** — 最多三个研究 Agent、多视角交叉验证，内容更深入。
+
+- For another `content_language`, translate the English template faithfully while preserving the Lite/Full labels, the recommended marker on Lite, and the stated tradeoff.
 - Prefer a structured two-option user-input control when the client exposes one. Otherwise ask the choice in one concise chat message. Do not begin work until the user answers.
+- The user's mode reply selects only the mode. A bare `Lite` or `Full` response does not change `content_language`.
 - If the runtime is non-interactive and cannot accept a reply, fall back to Lite and explicitly disclose that choice.
 - Do not infer Full merely because a topic is broad, mixed, current, or described as “newbie to expert.”
-- Record `Mode: Lite` or `Mode: Full` in the scope/evidence panel near the top of the atlas.
+- Record `Mode: Lite` or `Mode: Full` and `Content language: <language>` in the scope/evidence panel near the top of the atlas.
 
 ## Lite — default fast path
 

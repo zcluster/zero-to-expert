@@ -34,11 +34,16 @@ Explore the semiconductor-industry atlas generated with this Skill. Both files c
 - **Creates information-bearing visuals**: flows, architecture stacks, timelines, comparison matrices, value chains, metric panels, and worked examples.
 - **Delivers one portable file**: produces a self-contained `.html` artifact with inline CSS and minimal JavaScript—no build step or external font required.
 - **Is responsive and accessible**: includes sticky navigation, reading progress, keyboard focus, discoverable overflow, mobile layout, and print styles.
-- **Matches the prompt language**: a Chinese prompt produces Chinese HTML; an English prompt produces English HTML. Standard English terminology may accompany first mentions when useful.
+- **Freezes the prompt language before mode selection**: a Chinese topic request produces Chinese HTML; an English topic request produces English HTML. The mode question is localized, and a bare `Lite` or `Full` reply cannot switch the artifact language. Standard English terminology may accompany first mentions when useful.
 
 ### Lite and Full modes
 
-When the prompt does not name a mode, the Skill asks you to choose **Lite (recommended)** or **Full** after receiving the topic and before research begins.
+When the prompt does not name a mode, the Skill freezes the output language from the topic request and asks the mode question in that language before research begins. For an English request, it uses:
+
+- **Lite (Recommended)** — One agent, one bounded research pass, and faster delivery.
+- **Full** — Up to three research agents, multi-perspective cross-validation, and deeper coverage.
+
+A language-neutral answer such as `Full` selects only the execution mode; it does not change the frozen output language.
 
 | | Lite | Full |
 |---|---|---|

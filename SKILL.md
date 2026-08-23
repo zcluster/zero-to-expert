@@ -9,18 +9,21 @@ Create one self-contained HTML learning atlas, not a long chat answer. Optimize 
 
 ## Workflow
 
-### 0. Select the mode
+### 0. Freeze the output language and select the mode
 
-- Read [references/modes.md](references/modes.md) and apply its budgets and stopping rules.
+- Read [references/language-routing.md](references/language-routing.md). Determine and freeze `content_language` from the user's original topic request before asking about execution mode.
+- Language precedence is: an explicit output-language instruction; otherwise the dominant natural language of the original topic request; otherwise established user-authored conversation language. Ignore system locale, timezone, file paths, URLs, ambient context, skill/reference text, and the assistant's own prior wording.
+- A language-neutral mode reply such as `Lite` or `Full` never changes `content_language`. Change it only when the user explicitly requests another output language.
+- Read [references/modes.md](references/modes.md) and apply its budgets, localized selection prompt, and stopping rules.
 - If the prompt already specifies Lite or Full, select it and proceed without another question.
-- If the prompt does not specify a mode, pause before research or file creation and ask the user to choose **Lite（推荐）** or **Full**. Use a structured two-option user-input control when available; otherwise ask the same choice in one concise chat message. Resume only after the reply.
+- If the prompt does not specify a mode, pause before research or file creation and ask the user to choose **Lite (Recommended)** or **Full**, localized to `content_language`. Use a structured two-option user-input control when available; otherwise use the matching prompt in `references/modes.md`. Resume only after the reply.
 - In a genuinely non-interactive execution environment that cannot receive a follow-up reply, use Lite and disclose the fallback.
 - Mode changes breadth, parallelism, and artifact size—not citation rigor or factual standards.
-- State the selected mode near the top of the HTML.
+- State the selected mode and `content_language` near the top of the HTML.
 
 ### 1. Frame the request
 
-- Extract the topic, language, geography, time horizon, desired depth, and any explicit audience constraints.
+- Extract the topic, geography, time horizon, desired depth, and any explicit audience constraints without reopening the frozen language decision.
 - Default to a reader with a STEM bachelor's degree, no domain knowledge, comfort with equations and charts, and limited time.
 - Choose one route without blocking on clarification:
   - **Academic**: theories, mechanisms, methods, literature, open questions, or research frontiers dominate.
@@ -32,7 +35,7 @@ Create one self-contained HTML learning atlas, not a long chat answer. Optimize 
 ### 2. Build a question tree before researching
 
 - In **Lite**, build the question tree locally and never spawn subagents, even when delegation tools are available.
-- In **Full**, read [references/multi-agent-orchestration.md](references/multi-agent-orchestration.md). Use no more than three research subagents at once. If delegation is unavailable, apply the same bounded lanes sequentially.
+- In **Full**, read [references/multi-agent-orchestration.md](references/multi-agent-orchestration.md). Include `content_language` in the shared brief, use no more than three research subagents at once, and keep final language ownership with the main agent. If delegation is unavailable, apply the same bounded lanes sequentially.
 - In either mode, the main agent owns scope, synthesis, the claim ledger, and the final HTML.
 
 Answer these questions in notes before drafting:
@@ -78,7 +81,7 @@ Introduce every technical term before using it. Pair abstraction with one concre
 ### 5. Produce the HTML
 
 - Use [assets/html-blueprint.html](assets/html-blueprint.html) as a component and styling reference; adapt the structure to the topic rather than filling it mechanically.
-- Match the user's language. On first use, include the standard English term when it improves transfer to literature or industry discourse.
+- Write all reader-visible atlas prose and the delivery message in the frozen `content_language`. Preserve source titles in their published language; on first use, include the standard English term when it improves transfer to literature or industry discourse.
 - Keep the hero `<h1>` short and label-like, not sentence-like: no more than 12 CJK characters (excluding punctuation and spaces) or 8 words in space-delimited languages. Move the explanatory thesis into the lede below it.
 - Keep the main shell centered with visible breathing room. Use a generous desktop maximum width around 1720 px plus a responsive total horizontal gutter of roughly 32–96 px; do not make the page edge-to-edge, and do not fall back to a narrow 1200 px column on ultrawide screens. Constrain prose line length inside the shell separately.
 - Create a single standalone `.html` file with inline CSS and minimal inline JavaScript. Do not require a build step, CDN, external font, or remote image to understand the page.
@@ -107,6 +110,8 @@ Introduce every technical term before using it. Pair abstraction with one concre
 - Check that a newcomer can follow the first two layers without reading expandable details.
 - Check that the expert layer contains evaluation criteria, tradeoffs, uncertainties, and failure modes—not merely more terminology.
 - Search the output for unresolved template tokens, placeholder copy, unsupported superlatives, undated “latest” claims, broken anchors, and citation mismatches.
+- Verify language conformance before delivery: the `<html lang>` value, title, hero, metadata, navigation, chapter headings, explanatory prose, action path, self-test, source annotations, and delivery sentence must use `content_language`. Source titles, proper nouns, code, equations, and standard technical terms may remain in their original language. If the language is wrong, correct the artifact before delivery.
+- For English and Simplified-Chinese artifacts, run `scripts/validate_language_output.py <html-file> --expected en|zh-CN` after drafting. A failed check blocks delivery. For other languages, perform the same region-by-region inspection manually.
 - Open or render the HTML when tools permit. Inspect desktop and 400 px mobile layouts, navigation, expandable sections, wide visuals, body-level overflow, contrast, and print behavior. Iterate on visible defects.
 - Prefer previewing through a temporary server bound only to `127.0.0.1` rather than `file://` when browser device emulation or anchor testing is needed. Check the console after a clean reload and distinguish page-origin errors from extension noise. Stop the server after QA.
 - Keep the artifact concise enough to finish. Apply the mode-specific length target in [references/modes.md](references/modes.md), excluding markup, CSS, JavaScript, and source URLs.

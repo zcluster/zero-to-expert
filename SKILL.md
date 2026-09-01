@@ -1,6 +1,6 @@
 ---
 name: zero-to-expert
-description: Build a concise, source-backed, highly visual standalone HTML atlas that helps a STEM-bachelor-level newcomer acquire an expert-grade map of an unfamiliar field. Supports user-selectable Lite mode (single-agent and fast) and Full mode (bounded multi-perspective research). Use for requests to enter, learn, understand, map, survey, master, or get up to speed on a new academic discipline, research area, technology, industry, market, or mixed domain; for newbie-to-expert guides, field primers, landscape reports, knowledge maps, and illustrated explainers; and when the user wants foundations, key concepts, major debates, value chains, milestones, current state, or latest developments organized into an HTML artifact.
+description: Build a concise, source-backed, highly visual standalone HTML atlas that helps a STEM-bachelor-level newcomer acquire an expert-grade map of an unfamiliar field. Supports user-selectable Lite mode (single-agent and fast), Full mode (bounded multi-perspective research), and an optional interactive knowledge graph. Use for requests to enter, learn, understand, map, survey, master, or get up to speed on a new academic discipline, research area, technology, industry, market, or mixed domain; for newbie-to-expert guides, field primers, landscape reports, knowledge maps, and illustrated explainers; and when the user wants foundations, key concepts, major debates, value chains, milestones, current state, or latest developments organized into an HTML artifact.
 ---
 
 # Zero to Expert
@@ -9,17 +9,18 @@ Create one self-contained HTML learning atlas, not a long chat answer. Optimize 
 
 ## Workflow
 
-### 0. Freeze the output language and select the mode
+### 0. Freeze the output language and collect production choices
 
 - Read [references/language-routing.md](references/language-routing.md). Determine and freeze `content_language` from the user's original topic request before asking about execution mode.
 - Language precedence is: an explicit output-language instruction; otherwise the dominant natural language of the original topic request; otherwise established user-authored conversation language. Ignore system locale, timezone, file paths, URLs, ambient context, skill/reference text, and the assistant's own prior wording.
 - A language-neutral mode reply such as `Lite` or `Full` never changes `content_language`. Change it only when the user explicitly requests another output language.
 - Read [references/modes.md](references/modes.md) and apply its budgets, localized selection prompt, and stopping rules.
-- If the prompt already specifies Lite or Full, select it and proceed without another question.
-- If the prompt does not specify a mode, pause before research or file creation and ask the user to choose **Lite (Recommended)** or **Full**, localized to `content_language`. Use a structured two-option user-input control when available; otherwise use the matching prompt in `references/modes.md`. Resume only after the reply.
-- In a genuinely non-interactive execution environment that cannot receive a follow-up reply, use Lite and disclose the fallback.
+- If the prompt already specifies Lite or Full, preserve that selection. Otherwise ask the user to choose **Lite (Recommended)** or **Full**, localized to `content_language`.
+- On every invocation, ask once whether to include an interactive knowledge graph. Do this even when the topic prompt already mentions a graph, so the user explicitly controls the extra visual and runtime cost. Localize the choice as **Include (Recommended)** or **Omit**.
+- Ask before research or file creation. When the mode is also unresolved, present mode and graph as two questions in the same structured input control when available; otherwise ask both choices in one concise localized message. If the mode was specified, ask only the graph question. Resume only after the reply.
+- In a genuinely non-interactive execution environment that cannot receive a follow-up reply, use Lite when mode is unresolved, omit the knowledge graph, and disclose both fallbacks.
 - Mode changes breadth, parallelism, and artifact size—not citation rigor or factual standards.
-- State the selected mode and `content_language` near the top of the HTML.
+- State the selected mode, `content_language`, and `Knowledge graph: Included|Omitted` near the top of the HTML.
 
 ### 1. Frame the request
 
@@ -52,6 +53,8 @@ Answer these questions in notes before drafting:
 
 Use the tree to avoid encyclopedia-style coverage. Prefer explanatory leverage over completeness. When using subagents, merge their outputs into one dependency-aware question tree before broad research begins; do not concatenate their lists.
 
+If the user chose the knowledge graph, preserve a graph-ready concept list while merging the tree: stable node IDs, concise labels, cluster, role, destination section, and only the relationships that materially improve understanding.
+
 ### 3. Research and synthesize
 
 - Read [references/research-quality.md](references/research-quality.md) before browsing or citing.
@@ -81,6 +84,7 @@ Introduce every technical term before using it. Pair abstraction with one concre
 ### 5. Produce the HTML
 
 - Use [assets/html-blueprint.html](assets/html-blueprint.html) as a component and styling reference; adapt the structure to the topic rather than filling it mechanically.
+- If the user chose the knowledge graph, read [references/knowledge-graph.md](references/knowledge-graph.md) and place the resulting graph in the hero's upper-right. Count it as one information-bearing visual. If the user omitted it, remove the graph container entirely and let the hero copy use the available width.
 - Write all reader-visible atlas prose and the delivery message in the frozen `content_language`. Preserve source titles in their published language; on first use, include the standard English term when it improves transfer to literature or industry discourse.
 - Keep the hero `<h1>` short and label-like, not sentence-like: no more than 12 CJK characters (excluding punctuation and spaces) or 8 words in space-delimited languages. Move the explanatory thesis into the lede below it.
 - Keep the main shell centered with visible breathing room. Use a generous desktop maximum width around 1720 px plus a responsive total horizontal gutter of roughly 32–96 px; do not make the page edge-to-edge, and do not fall back to a narrow 1200 px column on ultrawide screens. Constrain prose line length inside the shell separately.
@@ -111,6 +115,7 @@ Introduce every technical term before using it. Pair abstraction with one concre
 - Check that the expert layer contains evaluation criteria, tradeoffs, uncertainties, and failure modes—not merely more terminology.
 - Search the output for unresolved template tokens, placeholder copy, unsupported superlatives, undated “latest” claims, broken anchors, and citation mismatches.
 - Verify language conformance before delivery: the `<html lang>` value, title, hero, metadata, navigation, chapter headings, explanatory prose, action path, self-test, source annotations, and delivery sentence must use `content_language`. Source titles, proper nouns, code, equations, and standard technical terms may remain in their original language. If the language is wrong, correct the artifact before delivery.
+- When the graph is included, verify that its labels match `content_language`; every node resolves to an existing section anchor; keyboard focus and neighbor highlighting work; the legend is readable; labels do not collide at the intended desktop size; and the graph stacks below the hero copy without body-level overflow near 400 px.
 - For English and Simplified-Chinese artifacts, run `scripts/validate_language_output.py <html-file> --expected en|zh-CN` after drafting. A failed check blocks delivery. For other languages, perform the same region-by-region inspection manually.
 - Open or render the HTML when tools permit. Inspect desktop and 400 px mobile layouts, navigation, expandable sections, wide visuals, body-level overflow, contrast, and print behavior. Iterate on visible defects.
 - Prefer previewing through a temporary server bound only to `127.0.0.1` rather than `file://` when browser device emulation or anchor testing is needed. Check the console after a clean reload and distinguish page-origin errors from extension noise. Stop the server after QA.

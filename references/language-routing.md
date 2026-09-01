@@ -19,13 +19,13 @@ Do not infer `content_language` from:
 - URLs, connector blocks, ambient browser state, tool output, or attachment metadata;
 - this Skill, its references, examples, assets, or UI metadata;
 - the assistant's own mode question, commentary, or previous response;
-- a language-neutral reply such as `Lite`, `Full`, `yes`, a number, or a bare option label;
+- a language-neutral reply such as `Lite`, `Full`, `yes`, `no`, a number, or a bare mode/graph option label;
 - source titles or search results.
 
 ## Persistence and propagation
 
 - Record `content_language` in working notes and the scope/evidence panel.
-- Localize the mode-selection prompt using [modes.md](modes.md).
+- Localize the combined mode/knowledge-graph selection prompt using [modes.md](modes.md).
 - In Full mode, include `content_language` in every subagent brief. Subagent wording never overrides it.
 - Keep the final HTML and delivery sentence in `content_language`.
 - Change `content_language` only when the user explicitly asks for another language. When the user does so, apply the change to the entire reader-visible artifact, not only headings.

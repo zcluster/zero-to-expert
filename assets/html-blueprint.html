@@ -16,7 +16,7 @@
     *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--paper);color:var(--ink);line-height:1.65}
     a{color:var(--accent);text-underline-offset:.18em} a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
     .progress{position:fixed;inset:0 auto auto 0;width:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));z-index:20}
-    .shell{width:min(1720px,calc(100% - clamp(32px,4vw,96px)));margin:auto}.hero{padding:72px 0 36px}.eyebrow,.tag{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    .shell{width:min(1720px,calc(100% - clamp(32px,4vw,96px)));margin:auto}.hero{padding:72px 0 36px}.hero-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(380px,.92fr);gap:clamp(28px,4vw,72px);align-items:start}.hero-copy{min-width:0}.eyebrow,.tag{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
     h1{font-size:clamp(2.5rem,7vw,6rem);line-height:.95;letter-spacing:-.06em;max-width:18ch;margin:.18em 0}h2{font-size:clamp(1.65rem,3vw,2.55rem);letter-spacing:-.035em;line-height:1.1;margin:.2em 0 .8em}h3{line-height:1.2}
     .lede{max-width:64ch;font-size:1.14rem;color:var(--muted)}.meta{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0}.tag{border:1px solid var(--line);border-radius:99px;padding:5px 10px;background:var(--card)}
     nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(12px);border-block:1px solid var(--line);overflow:auto;white-space:nowrap}nav .shell{display:flex;gap:20px;padding-block:12px}nav a{text-decoration:none;font-weight:700;font-size:.9rem}
@@ -27,22 +27,57 @@
     .table-wrap{max-width:100%;overflow:auto;border:1px solid var(--line);border-radius:14px;background:var(--card);background-image:linear-gradient(90deg,var(--card) 30%,transparent),linear-gradient(90deg,transparent,var(--card) 70%);background-position:left,right;background-repeat:no-repeat;background-size:28px 100%;background-attachment:local,local}
     .matrix{width:100%;min-width:720px;border-collapse:collapse;font-size:.92rem}.matrix th,.matrix td{text-align:left;vertical-align:top;border-bottom:1px solid var(--line);padding:12px}.matrix th{color:var(--muted)}
     .timeline{display:grid;grid-template-columns:130px 1fr;gap:0 20px}.time{font-weight:900;color:var(--accent)}.event{border-left:2px solid var(--line);padding:0 0 24px 22px;position:relative}.event:before{content:"";position:absolute;width:10px;height:10px;border-radius:50%;background:var(--accent2);left:-6px;top:.5em}
+    .knowledge-map{margin:0;background:color-mix(in srgb,var(--card) 94%,var(--accent));border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);min-width:0}.knowledge-map h2{font-size:1rem;margin:0 0 4px;letter-spacing:0}.knowledge-map p,.knowledge-map figcaption{font-size:.78rem;color:var(--muted);margin:.25rem 0 0}.knowledge-map svg{display:block;width:100%;height:auto;aspect-ratio:4/3;overflow:visible}.kg-edge{stroke:#9aa6b2;stroke-width:1.5;opacity:.7;fill:none;transition:opacity .18s,stroke-width .18s}.kg-edge.tradeoff{stroke:var(--accent2);stroke-dasharray:5 5}.kg-node{color:var(--accent);opacity:1;transition:opacity .18s}.kg-node circle{fill:currentColor;stroke:var(--card);stroke-width:4;filter:drop-shadow(0 3px 4px rgb(23 32 51 / .15))}.kg-node text{fill:var(--ink);font-size:13px;font-weight:800;paint-order:stroke;stroke:var(--card);stroke-width:4px;stroke-linejoin:round}.kg-node.core circle{stroke:var(--ink);stroke-width:5}.kg-node.cluster-b{color:#d76a45}.kg-node.cluster-c{color:#8f54b5}.kg-node.cluster-d{color:#3470c8}.knowledge-map.is-filtered .kg-node:not(.is-active),.knowledge-map.is-filtered .kg-edge:not(.is-active){opacity:.16}.knowledge-map .kg-node.is-active circle{stroke:var(--gold);stroke-width:6}.knowledge-map .kg-edge.is-active{opacity:1;stroke-width:3}.kg-legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin-top:8px;font-size:.7rem;font-weight:750;color:var(--muted)}.kg-key{display:inline-flex;align-items:center;gap:5px}.kg-dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}.kg-line{width:18px;border-top:2px solid #9aa6b2}.kg-line.tradeoff{border-color:var(--accent2);border-top-style:dashed}
     details{border-top:1px solid var(--line);padding:14px 0}summary{cursor:pointer;font-weight:800}.legend{display:flex;gap:9px;flex-wrap:wrap}.legend span{padding:4px 9px;border-radius:7px;background:var(--card);border:1px solid var(--line);font-size:.78rem;font-weight:800}
     .foundation{border-color:var(--accent)}.current{border-color:#2877b5}.frontier{border-color:var(--gold)}.debate{border-color:var(--accent2)}.inference{border-style:dashed}
     .quiz label{display:block;margin:9px 0}.answer{color:var(--muted)}footer{padding:40px 0 80px;color:var(--muted)}
-    @media(max-width:760px){.card,.wide{grid-column:1/-1}.hero{padding-top:48px}.timeline{grid-template-columns:90px 1fr}h1{overflow-wrap:anywhere}.flow{padding-bottom:18px}}
+    @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.knowledge-map{width:100%;max-width:680px}.card,.wide{grid-column:1/-1}.hero{padding-top:48px}.timeline{grid-template-columns:90px 1fr}h1{overflow-wrap:anywhere}.flow{padding-bottom:18px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
-    @media print{nav,.progress{display:none}.shell{width:100%}.card{box-shadow:none;break-inside:avoid}a{color:inherit}.hero{padding-top:0}}
+    @media print{nav,.progress{display:none}.shell{width:100%}.card,.knowledge-map{box-shadow:none;break-inside:avoid}a{color:inherit}.hero{padding-top:0}.hero-grid{grid-template-columns:1.05fr .95fr;gap:24px}}
   </style>
 </head>
 <body>
   <div class="progress" id="progress" aria-hidden="true"></div>
   <header class="hero shell">
-    <p class="eyebrow">Zero to Expert · Technology–industry route</p>
-    <h1>Your topic, mapped.</h1>
-    <p class="lede">Replace this with the atlas's one-sentence promise and boundary. Make the first screen useful before the reader scrolls.</p>
-    <div class="meta"><span class="tag">Audience · STEM graduate</span><span class="tag">Evidence checked · YYYY-MM-DD</span><span class="tag">Reading time · NN min</span></div>
-    <div class="legend" aria-label="Evidence legend"><span class="foundation">Foundation</span><span class="current">Current state</span><span class="frontier">Frontier</span><span class="debate">Debate</span><span class="inference">Inference</span></div>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Zero to Expert · Technology–industry route</p>
+        <h1>Your topic, mapped.</h1>
+        <p class="lede">Replace this with the atlas's one-sentence promise and boundary. Make the first screen useful before the reader scrolls.</p>
+        <div class="meta"><span class="tag">Mode · Lite</span><span class="tag">Knowledge graph · Included</span><span class="tag">Evidence checked · YYYY-MM-DD</span><span class="tag">Reading time · NN min</span></div>
+        <div class="legend" aria-label="Evidence legend"><span class="foundation">Foundation</span><span class="current">Current state</span><span class="frontier">Frontier</span><span class="debate">Debate</span><span class="inference">Inference</span></div>
+      </div>
+      <!-- Delete this entire figure and let .hero-copy use the hero width when the user omits the graph. -->
+      <figure class="knowledge-map" data-knowledge-graph aria-labelledby="kg-heading kg-caption">
+        <h2 id="kg-heading">Knowledge map</h2>
+        <p>Follow prerequisites into the system, then use each node to jump into the atlas.</p>
+        <svg viewBox="0 0 600 450" role="img" aria-labelledby="kg-title kg-desc">
+          <title id="kg-title">Concept and relationship map</title>
+          <desc id="kg-desc">Eight linked concepts arranged from foundations through the central system to evidence, tradeoffs, history, and action.</desc>
+          <defs><marker id="kg-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#9aa6b2"/></marker></defs>
+          <g aria-hidden="true">
+            <path class="kg-edge" data-from="scope" data-to="foundation" d="M112 103 C155 95 175 105 205 130" marker-end="url(#kg-arrow)"/>
+            <path class="kg-edge" data-from="foundation" data-to="system" d="M250 145 C285 155 305 178 326 202" marker-end="url(#kg-arrow)"/>
+            <path class="kg-edge" data-from="history" data-to="system" d="M170 288 C235 290 280 250 326 222" marker-end="url(#kg-arrow)"/>
+            <path class="kg-edge" data-from="system" data-to="evidence" d="M374 202 C414 160 450 145 480 137" marker-end="url(#kg-arrow)"/>
+            <path class="kg-edge" data-from="system" data-to="frontier" d="M373 235 C420 256 452 278 480 302" marker-end="url(#kg-arrow)"/>
+            <path class="kg-edge tradeoff" data-from="constraints" data-to="system" d="M275 370 C300 315 318 270 332 239" marker-end="url(#kg-arrow)"/>
+            <path class="kg-edge" data-from="system" data-to="action" d="M355 243 C363 301 380 348 411 380" marker-end="url(#kg-arrow)"/>
+            <path class="kg-edge tradeoff" data-from="constraints" data-to="frontier" d="M305 382 C380 380 430 350 484 321" marker-end="url(#kg-arrow)"/>
+          </g>
+          <a class="kg-node cluster-c" data-node="scope" href="#orient" aria-label="Scope: jump to orientation"><circle cx="88" cy="96" r="20"/><text x="116" y="101">Scope</text><title>Scope and boundaries</title></a>
+          <a class="kg-node cluster-d" data-node="foundation" href="#orient" aria-label="Foundations: jump to orientation"><circle cx="220" cy="138" r="25"/><text x="220" y="105" text-anchor="middle">Foundations</text><title>Foundational concepts</title></a>
+          <a class="kg-node cluster-c" data-node="history" href="#history" aria-label="Turning points: jump to history"><circle cx="142" cy="292" r="22"/><text x="175" y="297">Turning points</text><title>Historical turning points</title></a>
+          <a class="kg-node core" data-node="system" href="#system" aria-label="Core system: jump to system map"><circle cx="350" cy="220" r="34"/><text x="350" y="224" text-anchor="middle">Core system</text><title>Core mechanism or system</title></a>
+          <a class="kg-node cluster-b" data-node="evidence" href="#expert" aria-label="Evidence: jump to expert lens"><circle cx="505" cy="128" r="24"/><text x="505" y="91" text-anchor="middle">Evidence</text><title>Evidence and measurement</title></a>
+          <a class="kg-node cluster-b" data-node="frontier" href="#expert" aria-label="Frontier: jump to expert lens"><circle cx="512" cy="314" r="26"/><text x="512" y="356" text-anchor="middle">Frontier</text><title>Frontier and open questions</title></a>
+          <a class="kg-node cluster-d" data-node="constraints" href="#expert" aria-label="Tradeoffs: jump to expert lens"><circle cx="270" cy="390" r="23"/><text x="230" y="425" text-anchor="middle">Tradeoffs</text><title>Constraints and tradeoffs</title></a>
+          <a class="kg-node cluster-b" data-node="action" href="#path" aria-label="Action: jump to action path"><circle cx="425" cy="396" r="21"/><text x="456" y="402">Action</text><title>Capability action path</title></a>
+        </svg>
+        <div class="kg-legend" aria-label="Knowledge-map legend"><span class="kg-key"><i class="kg-dot"></i>Cluster</span><span class="kg-key"><i class="kg-line"></i>Dependency / flow</span><span class="kg-key"><i class="kg-line tradeoff"></i>Constraint / tradeoff</span></div>
+        <figcaption id="kg-caption"><strong>What to notice:</strong> concepts converge on one core system; evidence and constraints determine which frontier claims survive.</figcaption>
+      </figure>
+    </div>
   </header>
   <nav aria-label="Section navigation"><div class="shell"><a href="#orient">Orient</a><a href="#system">System map</a><a href="#history">History</a><a href="#expert">Expert lens</a><a href="#path">Action path</a><a href="#sources">Sources</a></div></nav>
   <main class="shell">
@@ -66,6 +101,14 @@
     const bar=document.getElementById('progress');
     const update=()=>{const h=document.documentElement;const max=h.scrollHeight-h.clientHeight;bar.style.width=(max?100*h.scrollTop/max:0)+'%'};
     addEventListener('scroll',update,{passive:true});update();
+    const graph=document.querySelector('[data-knowledge-graph]');
+    if(graph){
+      const nodes=[...graph.querySelectorAll('[data-node]')],edges=[...graph.querySelectorAll('[data-from][data-to]')];
+      const reset=()=>{graph.classList.remove('is-filtered');[...nodes,...edges].forEach(el=>el.classList.remove('is-active'))};
+      const activate=id=>{const related=new Set([id]);edges.forEach(edge=>{const a=edge.dataset.from,b=edge.dataset.to;if(a===id)related.add(b);if(b===id)related.add(a);edge.classList.toggle('is-active',a===id||b===id)});nodes.forEach(node=>node.classList.toggle('is-active',related.has(node.dataset.node)));graph.classList.add('is-filtered')};
+      nodes.forEach(node=>{node.addEventListener('pointerenter',()=>activate(node.dataset.node));node.addEventListener('focus',()=>activate(node.dataset.node))});
+      graph.addEventListener('pointerleave',reset);graph.addEventListener('focusout',event=>{if(!graph.contains(event.relatedTarget))reset()});
+    }
   </script>
 </body>
 </html>

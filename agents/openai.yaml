@@ -1,4 +1,4 @@
 interface:
   display_name: "Zero to Expert"
-  short_description: "Build fast or deep visual maps of unfamiliar fields"
-  default_prompt: "Use $zero-to-expert to create a concise, source-backed visual HTML guide for this topic. Freeze the output language from my topic request, localize the Lite/Full choice to it, and ask for the mode before research begins."
+  short_description: "Build visual field maps with an optional knowledge graph"
+  default_prompt: "Use $zero-to-expert to create a concise, source-backed visual HTML guide for this topic. Freeze the output language from my topic request, localize the Lite/Full choice to it, and always ask whether to include the optional knowledge graph before research begins."

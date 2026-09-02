@@ -32,18 +32,26 @@ Explore the semiconductor-industry atlas generated with this Skill. Both files c
 - **Uses source-backed research**: verifies recent, quantitative, disputed, and predictive claims and cites them near their use.
 - **Separates evidence states**: visually distinguishes foundations, current state, frontier, debate, inference, and scenarios.
 - **Creates information-bearing visuals**: flows, architecture stacks, timelines, comparison matrices, value chains, metric panels, and worked examples.
+- **Offers an interactive knowledge graph**: asks on every run whether to add a compact concept-and-relationship map to the hero, with nodes that jump to the relevant atlas sections.
 - **Delivers one portable file**: produces a self-contained `.html` artifact with inline CSS and minimal JavaScript—no build step or external font required.
 - **Is responsive and accessible**: includes sticky navigation, reading progress, keyboard focus, discoverable overflow, mobile layout, and print styles.
 - **Freezes the prompt language before mode selection**: a Chinese topic request produces Chinese HTML; an English topic request produces English HTML. The mode question is localized, and a bare `Lite` or `Full` reply cannot switch the artifact language. Standard English terminology may accompany first mentions when useful.
 
 ### Lite and Full modes
 
-When the prompt does not name a mode, the Skill freezes the output language from the topic request and asks the mode question in that language before research begins. For an English request, it uses:
+Before research begins, the Skill freezes the output language from the topic request and collects the production choices in that language. If the prompt does not name a mode, it asks:
 
 - **Lite (Recommended)** — One agent, one bounded research pass, and faster delivery.
 - **Full** — Up to three research agents, multi-perspective cross-validation, and deeper coverage.
 
 A language-neutral answer such as `Full` selects only the execution mode; it does not change the frozen output language.
+
+On every run, it also asks whether to include the optional knowledge graph:
+
+- **Include graph (Recommended)** — Adds an interactive concept-and-relationship map to the upper-right of the hero; generation and layout checks take slightly longer.
+- **Omit graph** — Keeps a text-first hero and finishes faster.
+
+When both choices are needed, compatible clients present them together so the workflow pauses only once. The graph choice is independent of Lite or Full and counts as one visual within that mode's existing budget.
 
 | | Lite | Full |
 |---|---|---|
@@ -152,7 +160,7 @@ You can also specify geography, time horizon, audience, exclusions, or questions
 
 A typical atlas includes:
 
-1. Topic framing, scope, route classification, selected mode, and evidence cutoff
+1. Topic framing, scope, route classification, selected mode, graph choice, and evidence cutoff
 2. A 60-second orientation and one master visual
 3. Five to nine high-leverage concepts and commonly confused distinctions
 4. The core mechanism, system architecture, technical stack, or value chain
@@ -162,6 +170,8 @@ A typical atlas includes:
 8. How experts detect bad assumptions, metric gaming, and overclaiming
 9. “What you can now explain,” remaining practice requirements, and a scored self-test
 10. An AI-assisted 2-hour / 2-day / 7-day capability sprint and a categorized source library
+
+When enabled, the hero also includes a deterministic inline-SVG knowledge graph. It uses clustered nodes and a small set of meaningful prerequisite, part-of, causal, and tradeoff edges—rather than an unreadable “hairball.” Hovering or focusing a node highlights its immediate neighborhood, and each node links to the relevant chapter. On narrow screens the graph stacks below the hero copy.
 
 ### Design principles
 
@@ -181,6 +191,7 @@ zero-to-expert/
 ├── assets/html-blueprint.html            # Responsive HTML component/style reference
 └── references/
     ├── modes.md                           # Lite / Full budgets and stopping rules
+    ├── knowledge-graph.md                 # Optional graph model, layout, interaction, and QA
     ├── frameworks.md                      # Academic, industry, and mixed frameworks
     ├── research-quality.md                # Evidence, citation, and research-quality rules
     └── multi-agent-orchestration.md       # Parallel research protocol for Full mode
